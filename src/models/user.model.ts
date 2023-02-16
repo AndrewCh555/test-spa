@@ -1,5 +1,5 @@
 import {
-   Column,
+  Column,
   CreatedAt,
   DataType,
   HasMany,

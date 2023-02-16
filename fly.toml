@@ -1,6 +1,6 @@
-# fly.toml file generated for blog5 on 2022-11-21T19:23:06+02:00HOST
+# fly.toml file generated for test-spa on 2023-02-16T19:23:06+02:00HOST
 
-app = "blog5"
+app = "test-spa"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -9,22 +9,8 @@ processes = []
 
   # Common
   HOST = "0.0.0.0"
-  PORT = "8080"
+  PORT = "3000"
 
-  # Mailer
-  MAILER_HOST = "smtp.gmail.com"
-
-  # Facebook auth
-  FB_APP_REDIRECT_URL = "https://blog5.fly.dev/auth/facebook/redirect"
-
-  # Google
-  OAUTH_GOOGLE_REDIRECT_URL = "https://blog5.fly.dev/auth/google/redirect"
-
-  # Twitter auth
-  TW_APP_URL = "https://blog5.fly.dev/auth/twitter/redirect"
-
-  # JWT
-  EXPIRE_TIME = "24h"
 
 [experimental]
   allowed_public_ports = []
@@ -32,7 +18,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 8080
+  internal_port = 3000
   processes = ["app"]
   protocol = "tcp"
   script_checks = []

@@ -1,7 +1,5 @@
 import {
-  AfterFind,
   BelongsTo,
-  BelongsToMany,
   Column,
   CreatedAt,
   DataType,
@@ -9,7 +7,6 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { UserCommentLikes } from './likes/usercomment.likes.model';
 import { Post } from './post.model';
 import { User } from './user.model';
 
@@ -26,14 +23,14 @@ export class Comment extends Model<Comment> {
   @Column({ type: DataType.STRING, unique: false, allowNull: false })
   content: string;
 
-  @BelongsTo(() => User, 'authorId')
+  @BelongsTo(() => User, 'username')
   author: User;
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
     allowNull: false,
   })
-  authorId: string;
+  username: string;
 
   @BelongsTo(() => Post)
   post: Post;
@@ -44,32 +41,7 @@ export class Comment extends Model<Comment> {
   })
   postId: string;
 
-  @BelongsToMany(() => User, () => UserCommentLikes)
-  likes: User[];
-  @Column({
-    type: DataType.VIRTUAL(DataType.NUMBER),
-  })
-  likesCount: number;
-
   @CreatedAt
   @Column
   createdAt: Date;
-
-  static async setInstanceLikesCount(comments: Comment[]) {
-    return await Promise.all(
-      comments.map(
-        async (comment) =>
-          (comment.likesCount = await UserCommentLikes.count({
-            where: { likedCommentId: comment.id },
-          })),
-      ),
-    );
-  }
-
-  @AfterFind
-  static async afterCommentFind(comments: Comment | Comment[]) {
-    if (!Array.isArray(comments)) comments = [comments];
-
-    await this.setInstanceLikesCount(comments);
-  }
 }
